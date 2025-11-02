@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: wopbic
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn WOPBIC.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.2
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
