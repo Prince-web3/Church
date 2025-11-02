@@ -1,0 +1,144 @@
+{% extends 'church/base.html' %}
+{% load static %}
+
+{% block title %}{{ sermon.title }} - {{ church_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px;"></div>
+
+<section class="section">
+    <div class="container">
+        <div style="max-width: 900px; margin: 0 auto;">
+            <!-- Breadcrumb -->
+            <div style="margin-bottom: 2rem;">
+                <a href="{% url 'sermons' %}" style="color: var(--primary-green); text-decoration: none;">
+                    <i class="fas fa-arrow-left"></i> Back to Sermons
+                </a>
+            </div>
+
+            <!-- Sermon Header -->
+            <div style="text-align: center; margin-bottom: 3rem;">
+                {% if sermon.series %}
+                <p style="color: var(--primary-red); font-weight: bold; margin-bottom: 0.5rem;">
+                    {{ sermon.series }}
+                </p>
+                {% endif %}
+                <h1 style="color: var(--dark-green); font-size: 2.5rem; margin-bottom: 1rem;">
+                    {{ sermon.title }}
+                </h1>
+                <p style="color: var(--text-light); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                    <strong>Preacher:</strong> {{ sermon.preacher }}
+                </p>
+                <p style="color: var(--text-light); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                    <strong>Scripture:</strong> {{ sermon.scripture_reference }}
+                </p>
+                <p style="color: var(--text-light);">
+                    {{ sermon.date_preached|date:"F d, Y" }}
+                </p>
+            </div>
+
+            <!-- Audio/Video Player -->
+            <div class="service-card" style="margin-bottom: 3rem;">
+                {% if sermon.video_url %}
+                <h3 style="color: var(--dark-green); margin-bottom: 1rem;">
+                    <i class="fas fa-video"></i> Watch Message
+                </h3>
+                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px;">
+                    {% if 'youtube.com' in sermon.video_url or 'youtu.be' in sermon.video_url %}
+                <iframe 
+                   style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                   src="{{ video_embed_url }}" 
+                   frameborder="0" 
+                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                   allowfullscreen>
+                </iframe>
+                    {% else %}
+                    <video controls style="width: 100%; border-radius: 10px;">
+                        <source src="{{ sermon.video_url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                {% if sermon.audio_file %}
+                <div style="{% if sermon.video_url %}margin-top: 2rem;{% endif %}">
+                    <h3 style="color: var(--dark-green); margin-bottom: 1rem;">
+                        <i class="fas fa-headphones"></i> Listen to Audio
+                    </h3>
+                    <audio controls style="width: 100%; margin-bottom: 1rem;">
+                        <source src="{{ sermon.audio_file.url }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <a href="{% url 'sermon_detail' sermon.pk %}?download=1" 
+                       class="btn btn-secondary" style="width: 100%;">
+                        <i class="fas fa-download"></i> Download Audio ({{ sermon.download_count }} downloads)
+                    </a>
+                </div>
+                {% endif %}
+
+                {% if not sermon.audio_file and not sermon.video_url %}
+                <div style="text-align: center; padding: 3rem;">
+                    <i class="fas fa-video-slash" style="font-size: 3rem; color: var(--text-light); margin-bottom: 1rem;"></i>
+                    <p style="color: var(--text-light);">Media not available for this sermon yet.</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sermon Summary -->
+            <div class="service-card" style="margin-bottom: 3rem;">
+                <h3 style="color: var(--dark-green); margin-bottom: 1rem;">
+                    <i class="fas fa-book-open"></i> Message Summary
+                </h3>
+                <p style="color: var(--text-light); line-height: 1.8; white-space: pre-line;">
+                    {{ sermon.summary }}
+                </p>
+            </div>
+
+            <!-- Related Sermons -->
+            {% if related_sermons %}
+            <div>
+                <h3 style="text-align: center; color: var(--dark-green); margin-bottom: 2rem;">
+                    More from this Series
+                </h3>
+                <div class="services-grid">
+                    {% for related in related_sermons %}
+                    <div class="service-card">
+                        <h4 style="color: var(--primary-red); margin-bottom: 0.5rem;">{{ related.title }}</h4>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 0.5rem;">
+                            {{ related.preacher }} - {{ related.date_preached|date:"M d, Y" }}
+                        </p>
+                        <a href="{% url 'sermon_detail' related.pk %}" class="btn btn-primary">
+                            <i class="fas fa-play"></i> Listen
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Share Section -->
+            <div style="margin-top: 3rem; text-align: center; padding: 2rem; background: var(--light-gray); border-radius: 15px;">
+                <h4 style="color: var(--dark-green); margin-bottom: 1rem;">Share This Message</h4>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                       target="_blank" 
+                       class="btn btn-secondary">
+                        <i class="fab fa-facebook"></i> Facebook
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ sermon.title }}" 
+                       target="_blank" 
+                       class="btn btn-secondary">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </a>
+                    <a href="https://wa.me/?text={{ sermon.title }} - {{ request.build_absolute_uri }}" 
+                       target="_blank" 
+                       class="btn btn-secondary">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

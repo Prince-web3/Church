@@ -1,0 +1,37 @@
+{% extends 'church/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Prayer Requests - {{ church_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px;"></div>
+
+<section class="section form-section">
+    <div class="container">
+        <h2 class="section-title">Prayer Requests</h2>
+        
+        <p style="text-align: center; margin-bottom: 3rem; font-size: 1.2rem; color: var(--text-light);">
+            "The prayer of a righteous person is powerful and effective." - James 5:16
+        </p>
+
+        <div class="form-container">
+            {% crispy form %}
+        </div>
+
+        {% if public_requests %}
+        <div style="margin-top: 5rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+            <h3 style="text-align: center; color: var(--dark-green); margin-bottom: 2rem;">Prayer Requests from Our Community</h3>
+            
+            {% for request in public_requests %}
+            <div class="service-card" style="text-align: left; margin-bottom: 1.5rem;">
+                <strong style="color: var(--dark-green);">{{ request.name }}</strong>
+                <span style="color: var(--text-light); font-size: 0.9rem; margin-left: 1rem;">{{ request.created_at|date:"M d, Y" }}</span>
+                <p style="color: var(--text-light); margin-top: 1rem;">{{ request.request_text }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

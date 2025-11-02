@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #DC143C; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background: #f8f9fa; }
+        .footer { text-align: center; padding: 20px; color: #666; }
+        .button { background: #228B22; color: white; padding: 10px 20px; text-decoration: none; display: inline-block; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>New Testimony Submission</h2>
+        </div>
+        <div class="content">
+            <p><strong>Name:</strong> {{ testimony.name }}</p>
+            <p><strong>Title:</strong> {{ testimony.title }}</p>
+            <p><strong>Testimony:</strong></p>
+            <p>{{ testimony.testimony }}</p>
+            <p><strong>Submitted:</strong> {{ testimony.created_at }}</p>
+            <p>
+                <a href="{{ admin_url }}" class="button">Review in Admin Panel</a>
+            </p>
+        </div>
+        <div class="footer">
+            <p>Please review and approve/decline this testimony</p>
+        </div>
+    </div>
+</body>

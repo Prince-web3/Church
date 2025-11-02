@@ -1,0 +1,12 @@
+{% extends 'church/base.html' %}
+{% block content %}
+<div class="verse-container">
+  {% if verse %}
+    <h2 class="verse-reference">{{ verse.reference }}</h2>
+    <p class="verse-text">“{{ verse.verse_text }}”</p>
+  {% else %}
+    <p>No verse available today.</p>
+  {% endif %}
+</div>
+{% endblock %}
+                                                                                                                   

@@ -1,0 +1,24 @@
+{% extends 'church/base.html' %}
+{% load static %}
+
+{% block title %}Live Stream - {{ church_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px;"></div>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Live Stream</h2>
+        
+        <div style="max-width: 900px; margin: 0 auto;">
+            <div class="service-card">
+                <div style="background: var(--light-gray); min-height: 500px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                    <i class="fas fa-video" style="font-size: 4rem; color: var(--text-light); margin-bottom: 1rem;"></i>
+                    <h3>Live stream will appear here during service times</h3>
+                    <p>Next service: Sunday 9:00 AM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

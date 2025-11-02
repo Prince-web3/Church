@@ -1,0 +1,31 @@
+{% extends 'church/base.html' %}
+{% load static %}
+
+{% block title %}Ministries - {{ church_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px;"></div>
+
+<section class="section ministries" style="background: var(--dark-green); color: var(--white);">
+    <div class="container">
+        <h2 class="section-title" style="color: var(--white);">Our Ministries</h2>
+        
+        <div class="ministries-grid">
+            {% for ministry in ministries %}
+            <div class="ministry-card">
+                <i class="{{ ministry.icon_class }}" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-gold);"></i>
+                <h3 style="margin-bottom: 1rem;">{{ ministry.name }}</h3>
+                <p style="margin-bottom: 1rem;">{{ ministry.description }}</p>
+                
+                <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1rem; margin-top: 1rem;">
+                    <p><strong>Leader:</strong> {{ ministry.leader }}</p>
+                    {% if ministry.meeting_day %}
+                    <p><strong>Meets:</strong> {{ ministry.meeting_day }}s</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

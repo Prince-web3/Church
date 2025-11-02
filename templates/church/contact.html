@@ -1,0 +1,157 @@
+{% extends 'church/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Contact Us - {{ church_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px;"></div>
+
+<section class="section form-section" id="contact">
+    <div class="container">
+        <h2 class="section-title">Contact Us</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;">
+            <!-- Contact Form -->
+            <div class="form-container" style="max-width: none;">
+                <h3 style="color: var(--dark-green); margin-bottom: 2rem;">Send Us a Message</h3>
+                {% crispy form %}
+            </div>
+            
+            <!-- Contact Information -->
+            <div>
+                <h3 style="color: var(--dark-green); margin-bottom: 1.5rem;">Get In Touch</h3>
+                
+                <div class="service-card" style="text-align: left; margin-bottom: 1.5rem;">
+                    <i class="fas fa-map-marker-alt" style="color: var(--primary-red); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                    <h4 style="color: var(--dark-green); margin: 0.5rem 0;">Address</h4>
+                    <p style="margin: 0; color: var(--text-light);">{{ church_settings.address }}</p>
+                </div>
+                
+                <div class="service-card" style="text-align: left; margin-bottom: 1.5rem;">
+                    <i class="fas fa-phone" style="color: var(--primary-red); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                    <h4 style="color: var(--dark-green); margin: 0.5rem 0;">Phone</h4>
+                    <p style="margin: 0; color: var(--text-light);">
+                        {{ church_settings.phone_primary }}<br>
+                        {% if church_settings.phone_secondary %}{{ church_settings.phone_secondary }}{% endif %}
+                    </p>
+                </div>
+                
+                <div class="service-card" style="text-align: left; margin-bottom: 1.5rem;">
+                    <i class="fas fa-envelope" style="color: var(--primary-red); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                    <h4 style="color: var(--dark-green); margin: 0.5rem 0;">Email</h4>
+                    <p style="margin: 0; color: var(--text-light);">
+                        {{ church_settings.email_primary }}<br>
+                        {{ church_settings.email_prayer }}
+                    </p>
+                </div>
+                
+                <div class="service-card" style="text-align: left;">
+                    <i class="fas fa-clock" style="color: var(--primary-red); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                    <h4 style="color: var(--dark-green); margin: 0.5rem 0;">Service Times</h4>
+                    <p style="margin: 0; color: var(--text-light);">
+                        <strong>Sunday:</strong> {{ church_settings.sunday_service_time|time:"g:i A" }} - 12:00 PM<br>
+                        <strong>Wednesday:</strong> {{ church_settings.prayer_meeting_time|time:"g:i A" }} - 8:00 PM<br>
+                        <strong>Friday:</strong> {{ church_settings.youth_service_time|time:"g:i A" }} - 9:00 PM
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Map -->
+        <div style="margin-top: 4rem;">
+            <h3 style="text-align: center; color: var(--dark-green); margin-bottom: 2rem;">Our Location</h3>
+            
+            <div style="max-width: 900px; margin: 0 auto;">
+                <!-- Google Map Embed -->
+                <div id="map" style="height: 400px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                    {% if google_maps_api_key %}
+                    <iframe 
+                        width="100%" 
+                        height="400" 
+                        frameborder="0" 
+                        style="border:0" 
+                        src="https://www.google.com/maps/embed/v1/place?key={{ google_maps_api_key }}&q={{ church_location.LATITUDE }},{{ church_location.LONGITUDE }}&zoom=15"
+                        allowfullscreen>
+                    </iframe>
+                    {% else %}
+                    <!-- Fallback if no API key -->
+                    <div style="height: 400px; background: var(--light-gray); display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--text-light);">
+                        <i class="fas fa-map-marked-alt" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+                        <p style="margin-bottom: 1rem;">{{ church_settings.address }}</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query={{ church_location.LATITUDE }},{{ church_location.LONGITUDE }}" 
+                           target="_blank" 
+                           class="btn btn-primary">
+                            Open in Google Maps
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ church_location.LATITUDE }},{{ church_location.LONGITUDE }}" 
+                       target="_blank" 
+                       class="btn btn-secondary">
+                        <i class="fas fa-directions"></i> Get Directions
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connect Section -->
+        <div style="margin-top: 5rem; background: var(--dark-green); color: var(--white); padding: 3rem; border-radius: 15px; text-align: center;">
+            <h3 style="color: var(--primary-gold); margin-bottom: 1rem;">
+                We'd Love to Hear From You
+            </h3>
+            <p style="max-width: 600px; margin: 0 auto 2rem auto; font-size: 1.1rem;">
+                Whether you have questions, need prayer, or just want to say hello, 
+                we're here for you. Feel free to reach out anytime!
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="https://wa.me/{{ church_settings.whatsapp_number }}" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Us
+                </a>
+                <a href="tel:{{ church_settings.phone_primary }}" class="btn btn-secondary">
+                    <i class="fas fa-phone"></i> Call Us
+                </a>
+                <a href="mailto:{{ church_settings.email_primary }}" class="btn btn-secondary">
+                    <i class="fas fa-envelope"></i> Email Us
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-control {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid var(--light-gray);
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary-green);
+        outline: none;
+    }
+    
+    textarea.form-control {
+        min-height: 150px;
+    }
+    
+    .btn-primary {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.1rem;
+    }
+    
+    @media (max-width: 768px) {
+        .container > div {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'church/base.html' %}
+{% load static %}
+
+{% block title %}About Us - {{ church_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px;"></div>
+
+<section class="section about" id="about">
+    <div class="container">
+        <h2 class="section-title">About Our Church</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Welcome to WOPBIC</h3>
+                <p>World of Prayer Bible International Church is a Bible-believing, Spirit-filled church committed to spreading the Gospel of Jesus Christ through fervent prayer, sound biblical teaching, and compassionate service to our community.</p>
+                
+                <h4>Our Mission</h4>
+                <p>To equip believers for effective ministry through prayer, worship, and the study of God's Word, while reaching the lost with the message of salvation.</p>
+                
+                <h4>Our Vision</h4>
+                <p>To be a lighthouse of hope and transformation, raising a generation of prayer warriors who will impact the world for Christ.</p>
+                
+                <h4>Core Values</h4>
+                <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                    <li>Prayer & Intercession</li>
+                    <li>Biblical Truth</li>
+                    <li>Holy Spirit Power</li>
+                    <li>Community Service</li>
+                    <li>Global Missions</li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <img class="a" src="{% static 'images/wopbic4.jpg' %}" alt="Church Community">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What We Believe Section -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">What We Believe</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-bible service-icon"></i>
+                <h3 class="service-title">The Bible</h3>
+                <p>We believe the Bible is the inspired, infallible Word of God and our final authority for faith and practice.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-cross service-icon"></i>
+                <h3 class="service-title">Salvation</h3>
+                <p>We believe salvation is found only through faith in Jesus Christ and His finished work on the cross.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-dove service-icon"></i>
+                <h3 class="service-title">Holy Spirit</h3>
+                <p>We believe in the baptism of the Holy Spirit and the operation of spiritual gifts in the church today.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-praying-hands service-icon"></i>
+                <h3 class="service-title">Prayer</h3>
+                <p>We believe in the power of prayer and intercession to transform lives and communities.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-church service-icon"></i>
+                <h3 class="service-title">The Church</h3>
+                <p>We believe the church is the body of Christ, called to worship, fellowship, and serve together.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-hands-helping service-icon"></i>
+                <h3 class="service-title">Great Commission</h3>
+                <p>We believe in fulfilling the Great Commission to make disciples of all nations.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Leadership Section -->
+<section class="section" style="background: var(--light-gray);">
+    <div class="container">
+        <h2 class="section-title">Our Leadership</h2>
+        <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+            <p style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 3rem;">
+                Our church is led by dedicated servants of God who are committed to shepherding and equipping the body of Christ.
+            </p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-user-tie" style="font-size: 3rem; color: var(--primary-red); margin-bottom: 1rem;"></i>
+                <h3 class="service-title">Senior Pastor</h3>
+                <p>Leading the vision and spiritual direction of the church</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-users" style="font-size: 3rem; color: var(--primary-red); margin-bottom: 1rem;"></i>
+                <h3 class="service-title">Pastoral Team</h3>
+                <p>Providing care and oversight for the congregation</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-hands" style="font-size: 3rem; color: var(--primary-red); margin-bottom: 1rem;"></i>
+                <h3 class="service-title">Deacons & Elders</h3>
+                <p>Serving and supporting the ministry of the church</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Join Us Section -->
+<section class="section" style="background: var(--dark-green); color: var(--white); text-align: center;">
+    <div class="container">
+        <h2 style="color: var(--primary-gold); font-size: 2.5rem; margin-bottom: 1rem;">Join Our Church Family</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+            We would love to have you worship with us! Come experience the presence of God and be part of our growing family.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="{% url 'contact' %}" class="btn btn-primary" style="font-size: 1.2rem; padding: 1.2rem 2.5rem;">Visit Us</a>
+            <a href="{% url 'events' %}" class="btn btn-secondary" style="font-size: 1.2rem; padding: 1.2rem 2.5rem;">View Events</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

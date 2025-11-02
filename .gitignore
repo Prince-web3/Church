@@ -1,0 +1,66 @@
+# Python
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+*.pot
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.bak
+
+# Secrets
+secret_key.txt
+*.pem
+*.key
+
+# Collected static files
+/staticfiles/
+/static/
+
+# Media files (user uploads)
+/media/
+
+# Cache
+.cache/
+*.cache

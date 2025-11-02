@@ -1,0 +1,127 @@
+{% extends 'church/base.html' %}
+{% load static %}
+
+{% block title %}Events Calendar - {{ church_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px;"></div>
+
+<section class="section events" id="events" style="background: var(--light-gray);">
+    <div class="container">
+        <h2 class="section-title">Events Calendar</h2>
+        
+        <!-- Calendar Navigation -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="display: inline-flex; align-items: center; gap: 2rem; background: var(--white); padding: 1rem 2rem; border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                <a href="?year={{ prev_year }}&month={{ prev_month }}" style="color: var(--primary-green); text-decoration: none; font-size: 1.2rem;">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+                <h3 style="margin: 0; color: var(--dark-green); font-size: 1.5rem;">
+                    {{ month_name }} {{ year }}
+                </h3>
+                <a href="?year={{ next_year }}&month={{ next_month }}" style="color: var(--primary-green); text-decoration: none; font-size: 1.2rem;">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="events-container" style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
+            <!-- Calendar Grid -->
+            <div>
+                <div class="calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; background: var(--text-light); border-radius: 10px; overflow: hidden;">
+                    <!-- Day Headers -->
+                    <div class="calendar-day header" style="background: var(--primary-green); color: var(--white); font-weight: bold; padding: 1rem; text-align: center;">Sun</div>
+                    <div class="calendar-day header" style="background: var(--primary-green); color: var(--white); font-weight: bold; padding: 1rem; text-align: center;">Mon</div>
+                    <div class="calendar-day header" style="background: var(--primary-green); color: var(--white); font-weight: bold; padding: 1rem; text-align: center;">Tue</div>
+                    <div class="calendar-day header" style="background: var(--primary-green); color: var(--white); font-weight: bold; padding: 1rem; text-align: center;">Wed</div>
+                    <div class="calendar-day header" style="background: var(--primary-green); color: var(--white); font-weight: bold; padding: 1rem; text-align: center;">Thu</div>
+                    <div class="calendar-day header" style="background: var(--primary-green); color: var(--white); font-weight: bold; padding: 1rem; text-align: center;">Fri</div>
+                    <div class="calendar-day header" style="background: var(--primary-green); color: var(--white); font-weight: bold; padding: 1rem; text-align: center;">Sat</div>
+                    
+                    <!-- Calendar Days -->
+                    {% for week in calendar_data %}
+                        {% for day_data in week %}
+                            <div class="calendar-day {% if day_data.events %}event{% endif %}" 
+                                 style="background: {% if day_data.events %}var(--primary-red){% else %}var(--white){% endif %}; 
+                                        color: {% if day_data.events %}var(--white){% else %}var(--text-dark){% endif %}; 
+                                        padding: 1rem; 
+                                        text-align: center; 
+                                        min-height: 80px; 
+                                        display: flex; 
+                                        flex-direction: column; 
+                                        justify-content: center;
+                                        cursor: {% if day_data.events %}pointer{% else %}default{% endif %};"
+                                 {% if day_data.events %}title="{% for event in day_data.events %}{{ event.title }}{% if not forloop.last %}, {% endif %}{% endfor %}"{% endif %}>
+                                {% if day_data.day %}
+                                    <div style="font-size: 1.2rem; font-weight: bold;">{{ day_data.day }}</div>
+                                    {% if day_data.events %}
+                                        <div style="font-size: 0.7rem; margin-top: 0.3rem;">
+                                            {{ day_data.events|length }} event{{ day_data.events|length|pluralize }}
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Upcoming Events Sidebar -->
+            <div class="upcoming-events" style="background: var(--white); padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                <h3 style="color: var(--dark-green); margin-bottom: 1.5rem;">
+                    <i class="fas fa-calendar-alt"></i> Upcoming Events
+                </h3>
+                
+                {% for event in upcoming_events %}
+                <div class="event-item" style="padding: 1rem 0; border-bottom: 1px solid var(--light-gray);">
+                    <div class="event-date" style="color: var(--primary-red); font-weight: bold; margin-bottom: 0.3rem;">
+                        {{ event.date|date:"M d, Y" }}
+                    </div>
+                    <div style="font-weight: 600; color: var(--dark-green); margin-bottom: 0.3rem;">
+                        {{ event.title }}
+                    </div>
+                    <div style="font-size: 0.9rem; color: var(--text-light);">
+                        <i class="fas fa-clock"></i> {{ event.start_time|time:"g:i A" }}<br>
+                        <i class="fas fa-map-marker-alt"></i> {{ event.location }}
+                    </div>
+                </div>
+                {% empty %}
+                <p style="color: var(--text-light); text-align: center; margin-top: 2rem;">
+                    No upcoming events scheduled.
+                </p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Event Types Legend -->
+        <div style="margin-top: 3rem; text-align: center;">
+            <h4 style="color: var(--dark-green); margin-bottom: 1rem;">Event Types</h4>
+            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 20px; height: 20px; background: var(--primary-red); border-radius: 3px;"></div>
+                    <span>Church Events</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    @media (max-width: 968px) {
+        .events-container {
+            grid-template-columns: 1fr !important;
+        }
+        
+        .calendar-grid {
+            font-size: 0.85rem;
+        }
+        
+        .calendar-day {
+            min-height: 60px !important;
+            padding: 0.5rem !important;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,180 @@
+{% extends 'church/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="hero-content">
+        <h1 class="hero-title">{{ church_settings.site_name }}</h1>
+        <p class="hero-subtitle">{{ church_settings.tagline }}</p>
+        <div class="hero-buttons">
+            <a href="{% url 'about' %}" class="btn btn-primary">Join Us</a>
+            <a href="{% url 'live_stream' %}" class="btn btn-secondary">Watch Live</a>
+            <a href="{% url 'giving' %}" class="btn donate-btn">Donate Now</a>
+        </div>
+    </div>
+</section>
+
+<!-- Bible Verse of the Day -->
+{% if daily_verse %}
+<section class="verse-of-day">
+    <div class="verse-container">
+        <div class="verse-text">
+            "{{ daily_verse.verse_text }}"
+        </div>
+        <div class="verse-reference">- {{ daily_verse.reference }}</div>
+    </div>
+</section>
+{% endif %}
+
+<!-- About Section -->
+<section class="section about" id="about">
+    <div class="container">
+        <h2 class="section-title">About Our Church</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Welcome to WOPBIC</h3>
+                <p>World of Prayer Bible International Church is a Bible-believing, Spirit-filled church committed to spreading the Gospel of Jesus Christ through fervent prayer, sound biblical teaching, and compassionate service to our community.</p>
+                
+                <h4>Our Mission</h4>
+                <p>To equip believers for effective ministry through prayer, worship, and the study of God's Word, while reaching the lost with the message of salvation.</p>
+                
+                <h4>Our Vision</h4>
+                <p>To be a lighthouse of hope and transformation, raising a generation of prayer warriors who will impact the world for Christ.</p>
+                
+                <h4>Core Values</h4>
+                <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                    <li>Prayer & Intercession</li>
+                    <li>Biblical Truth</li>
+                    <li>Holy Spirit Power</li>
+                    <li>Community Service</li>
+                    <li>Global Missions</li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <img class="a" src="{% static 'images/wopbic4.jpg' %}" alt="Church Community">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="section" id="sermons">
+    <div class="container">
+        <h2 class="section-title">Sermons & Media</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-video service-icon"></i>
+                <h3 class="service-title">Live Stream</h3>
+                <p>Join us live for Sunday services and special events</p>
+                <a href="{% url 'live_stream' %}" class="btn btn-primary">Watch Now</a>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-podcast service-icon"></i>
+                <h3 class="service-title">Sermons</h3>
+                <p>Listen to our latest sermons and teachings</p>
+                <a href="{% url 'sermons' %}" class="btn btn-primary">Listen Now</a>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-bible service-icon"></i>
+                <h3 class="service-title">Bible Study</h3>
+                <p>Deep dive into God's Word with our study materials</p>
+                <a href="{% url 'events' %}" class="btn btn-primary">Study Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ministries Section -->
+<section class="section ministries" id="ministries">
+    <div class="container">
+        <h2 class="section-title">Our Ministries</h2>
+        <div class="ministries-grid">
+            {% for ministry in ministries %}
+            <div class="ministry-card">
+                <i class="{{ ministry.icon_class }}" style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary-gold);"></i>
+                <h3>{{ ministry.name }}</h3>
+                <p>{{ ministry.description|truncatewords:15 }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="{% url 'ministries' %}" class="btn btn-primary">View All Ministries</a>
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Events -->
+{% if upcoming_events %}
+<section class="section" style="background: var(--light-gray);">
+    <div class="container">
+        <h2 class="section-title">Upcoming Events</h2>
+        <div class="services-grid">
+            {% for event in upcoming_events %}
+            <div class="service-card">
+                <div class="event-date" style="color: var(--primary-red); font-weight: bold; margin-bottom: 0.5rem;">
+                    {{ event.date|date:"M d, Y" }}
+                </div>
+                <h3 class="service-title">{{ event.title }}</h3>
+                <p>{{ event.description|truncatewords:20 }}</p>
+                <p style="margin-top: 1rem;">
+                    <i class="fas fa-clock"></i> {{ event.start_time|time:"g:i A" }}<br>
+                    <i class="fas fa-map-marker-alt"></i> {{ event.location }}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="{% url 'events' %}" class="btn btn-secondary">View Full Calendar</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Testimonies Section -->
+{% if featured_testimonies %}
+<section class="section" id="testimonies">
+    <div class="container">
+        <h2 class="section-title">Testimonies</h2>
+        <div class="services-grid">
+            {% for testimony in featured_testimonies %}
+            <div class="service-card">
+                <h4 style="color: var(--primary-red); margin-bottom: 1rem;">{{ testimony.title }}</h4>
+                <p style="font-style: italic;">"{{ testimony.story|truncatewords:30 }}"</p>
+                <div style="margin-top: 1rem; font-weight: bold; color: var(--dark-green);">- {{ testimony.name }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="{% url 'testimonies' %}" class="btn btn-primary">Read More Testimonies</a>
+            <a href="{% url 'testimonies' %}" class="btn btn-secondary">Share Your Testimony</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="section" style="background: var(--dark-green); color: var(--white); text-align: center;">
+    <div class="container">
+        <h2 style="color: var(--primary-gold); font-size: 2.5rem; margin-bottom: 1rem;">Need Prayer?</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem;">Our prayer team is here to intercede with you. Submit your prayer request today.</p>
+        <a href="{% url 'prayer_request' %}" class="btn btn-primary" style="font-size: 1.2rem; padding: 1.2rem 2.5rem;">Submit Prayer Request</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        height: 100vh;
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('{% static "images/wopbic1.jpg" %}') center/cover;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+    }
+</style>
+{% endblock %}

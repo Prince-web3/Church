@@ -1,0 +1,158 @@
+{% extends 'church/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Online Giving - {{ church_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div style="margin-top: 100px;"></div>
+
+<section class="section" id="giving">
+    <div class="container">
+        <h2 class="section-title">Online Giving</h2>
+        
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <p style="font-size: 1.2rem; color: var(--text-light); max-width: 700px; margin: 0 auto;">
+                "Give, and it will be given to you. A good measure, pressed down, shaken together and running over, will be poured into your lap." - Luke 6:38
+            </p>
+        </div>
+
+        <!-- Bank Details Card -->
+        <div style="max-width: 700px; margin: 0 auto 4rem auto; background: var(--dark-green); color: var(--white); padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2);">
+            <h3 style="color: var(--primary-gold); text-align: center; margin-bottom: 1.5rem;">
+                <i class="fas fa-university"></i> Bank Account Details
+            </h3>
+            <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 10px;">
+                <p style="margin-bottom: 1rem; font-size: 1.1rem;">
+                    <strong>Bank Name:</strong> {{ bank_details.BANK_NAME }}
+                </p>
+                <p style="margin-bottom: 1rem; font-size: 1.1rem;">
+                    <strong>Account Name:</strong> {{ bank_details.ACCOUNT_NAME }}
+                </p>
+                <p style="margin-bottom: 1rem; font-size: 1.3rem; color: var(--primary-gold);">
+                    <strong>Account Number:</strong> {{ bank_details.ACCOUNT_NUMBER }}
+                </p>
+            </div>
+            <p style="text-align: center; margin-top: 1.5rem; font-size: 0.95rem; opacity: 0.9;">
+                <i class="fas fa-info-circle"></i> After making your transfer, please fill out the form below to confirm your donation.
+            </p>
+        </div>
+
+        <!-- Donation Types Grid -->
+        <div class="services-grid" style="margin-bottom: 4rem;">
+            <div class="service-card">
+                <i class="fas fa-hand-holding-heart service-icon"></i>
+                <h3 class="service-title">Tithes & Offerings</h3>
+                <p>Support the work of God's kingdom through your faithful giving</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-hammer service-icon"></i>
+                <h3 class="service-title">Building Fund</h3>
+                <p>Help us expand God's house and accommodate more souls</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-globe service-icon"></i>
+                <h3 class="service-title">Missions</h3>
+                <p>Support our global outreach efforts to spread the Gospel</p>
+            </div>
+        </div>
+
+        <!-- Donation Form -->
+        <div class="form-container">
+            <h3 style="text-align: center; color: var(--dark-green); margin-bottom: 2rem;">
+                Confirm Your Donation
+            </h3>
+            
+            {% crispy form %}
+        </div>
+
+        <!-- Recent Verified Donations (Optional Display) -->
+        {% if recent_donations %}
+        <div style="margin-top: 5rem;">
+            <h3 style="text-align: center; color: var(--dark-green); margin-bottom: 2rem;">
+                Recent Donations
+            </h3>
+            <div style="max-width: 600px; margin: 0 auto;">
+                {% for donation in recent_donations %}
+                <div style="background: var(--light-gray); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <p style="margin: 0;">
+                        <strong>{{ donation.donor_name }}</strong> donated 
+                        <strong style="color: var(--primary-green);">₦{{ donation.amount|floatformat:2 }}</strong>
+                        for <em>{{ donation.get_donation_type_display }}</em>
+                    </p>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: var(--text-light);">
+                        {{ donation.verified_at|date:"M d, Y" }}
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Additional Information -->
+        <div style="margin-top: 4rem; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">
+            <h3 style="color: var(--dark-green); margin-bottom: 1rem;">Why Give?</h3>
+            <div style="text-align: left; color: var(--text-light);">
+                <p style="margin-bottom: 1rem;">
+                    <i class="fas fa-check" style="color: var(--primary-green);"></i> 
+                    <strong>Biblical Obedience:</strong> Giving is an act of worship and obedience to God's Word.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    <i class="fas fa-check" style="color: var(--primary-green);"></i> 
+                    <strong>Kingdom Advancement:</strong> Your gifts help spread the Gospel and support ministry work.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    <i class="fas fa-check" style="color: var(--primary-green);"></i> 
+                    <strong>Community Impact:</strong> Support programs that transform lives and communities.
+                </p>
+                <p style="margin-bottom: 0;">
+                    <i class="fas fa-check" style="color: var(--primary-green);"></i> 
+                    <strong>Blessing & Provision:</strong> God promises to bless those who give cheerfully.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-control, .form-control-file {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid var(--light-gray);
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary-green);
+        outline: none;
+    }
+    
+    .btn-primary {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.1rem;
+        margin-top: 1rem;
+    }
+    
+    .alert-info {
+        background: #d1ecf1;
+        border: 1px solid #bee5eb;
+        color: #0c5460;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+    
+    .alert-warning {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        color: #856404;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+    }
+</style>
+{% endblock %}
